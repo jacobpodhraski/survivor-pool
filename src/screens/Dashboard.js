@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import Paragraph from '../components/Paragraph';
 import Button from '../components/Button';
 import moment from 'moment';
-import { Select } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 export default function Dashboard({ navigation }) {
@@ -14,6 +14,7 @@ export default function Dashboard({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedWeek, setSelectedWeek] = useState(1);
+  const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     fetchGames(selectedWeek);
@@ -88,20 +89,31 @@ export default function Dashboard({ navigation }) {
     <View style={styles.divider} />
   );
 
-  const renderWeekSelector = () => (
-    <ScrollView contentContainerStyle={styles.weekSelectorContainer}>
-      <Text style={styles.weekSelectorLabel}>Select Week:</Text>
-      {[...Array(18)].map((_, index) => (
-        <TouchableOpacity 
-          key={index} 
-          style={[styles.weekOption, selectedWeek === index + 1 ? styles.selectedOption : {}]}
-          onPress={() => setSelectedWeek(index + 1)}
-        >
-          <Text style={styles.weekNumber}>{index + 1}</Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  );
+  const handlePress = () => setExpanded(!expanded);
+  const handleSelectWeek = (index) => {
+      setSelectedWeek(index + 1)
+      setExpanded(false)
+  };
+  
+    const renderWeekSelector = () => (
+     <List.Section title="Select Week">
+     </List.Section>
+      //<List.Accordion
+      //  title={selectedWeek ? `Week ${selectedWeek}` : "Select Week"}
+      //  left={props => <List.Icon {...props} icon="calendar" />}
+      //  expanded={expanded}
+      //  onPress={handlePress}>
+      //  
+      //  {Array.from({ length: 18 }).map((_, index) => (
+      //    <List.Item
+      //      key={index}
+      //      title={`Week ${index + 1}`}
+      //      onPress={() => handleSelectWeek(index)}
+      //    />
+      //  ))}
+
+      //</List.Accordion>
+   );
 
   return (
     <Background>
